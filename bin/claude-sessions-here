@@ -1,0 +1,33 @@
+#!/bin/bash
+# Dolphin service-menu helper.
+#   claude-sessions-here <folder>          open claude-sessions:/ at <folder>
+#   claude-sessions-here --project <url>   from inside claude-sessions:/, open the real folder
+set -u
+say() { notify-send -a "Claude sessions" -i claude-desktop "Claude sessions" "$1"; }
+urldecode() { python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))' "$1"; }
+urlencode() { python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))' "$1"; }
+
+if [ "${1:-}" = "--project" ]; then
+    rel=$(urldecode "${2#claude-sessions:}")
+    rel="/${rel#/}"
+    case "$rel" in
+        "/Outside home/"*) real="${rel#"/Outside home"}" ;;
+        "/No workspace"*|"/Cloud"*|"/Archived"*) say "This folder has no project folder."; exit 0 ;;
+        "/") real="$HOME" ;;
+        *) real="$HOME$rel" ;;
+    esac
+    [ -d "$real" ] || { say "${real/#$HOME/\~} no longer exists."; exit 0; }
+    exec dolphin --new-window "$real"
+fi
+
+dir=$(realpath -- "${1:-$PWD}")
+case "$dir/" in
+    "$HOME/") rel="" ;;
+    "$HOME/"*) rel="${dir#"$HOME/"}" ;;
+    *) rel="Outside home$dir" ;;
+esac
+url="claude-sessions:/$(urlencode "$rel")"
+if kioclient stat "$url" >/dev/null 2>&1; then
+    exec dolphin --new-window "$url"
+fi
+say "No Claude sessions in ${dir/#$HOME/\~} or below."

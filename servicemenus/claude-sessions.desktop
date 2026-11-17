@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
+X-KDE-Priority=TopLevel
+X-KDE-RequiredNumberOfUrls=1
+X-KDE-Protocols=file
+Actions=sessionsHere
+
+[Desktop Action sessionsHere]
+Name=Claude sessions here
+Icon=claude-desktop
+Exec=claude-sessions-here %f

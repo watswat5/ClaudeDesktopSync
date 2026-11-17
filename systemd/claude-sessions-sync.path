@@ -1,0 +1,8 @@
+[Unit]
+Description=Watch the Claude desktop app's session folder
+
+[Path]
+# install.sh adds one PathChanged= line per account/org folder here.
+
+[Install]
+WantedBy=default.target

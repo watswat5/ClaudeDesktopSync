@@ -1,0 +1,10 @@
+[Unit]
+Description=Sync Claude session links into project folders
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.local/share/claude-dolphin/claude_sessions_sync.py
+
+[Install]
+# Also sync once at login, in case sessions changed while logged out.
+WantedBy=default.target

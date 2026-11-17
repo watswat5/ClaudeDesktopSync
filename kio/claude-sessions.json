@@ -1,0 +1,16 @@
+{
+    "KDE-KIO-Protocols": {
+        "claude-sessions": {
+            "Class": ":local",
+            "Icon": "claude-desktop",
+            "ExtraNames": [],
+            "input": "none",
+            "output": "filesystem",
+            "listing": ["Name", "Type", "Size", "Date", "Access", "MimeType", "LinkDest"],
+            "reading": true,
+            "determineMimetypeFromExtension": false,
+            "maxInstances": 4,
+            "protocol": "claude-sessions"
+        }
+    }
+}
